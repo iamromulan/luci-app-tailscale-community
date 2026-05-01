@@ -337,7 +337,7 @@ msgstr "在线"
 msgid ""
 "Optional: Specify a custom control server URL (e.g., a Headscale instance, "
 "%s)."
-msgstr ""
+msgstr "可选：指定一个自定义控制服务器 URL (例如，一个 Headscale 实例, %s)。"
 
 #: applications/luci-app-tailscale-community/htdocs/luci-static/resources/view/tailscale.js:470
 msgid ""
