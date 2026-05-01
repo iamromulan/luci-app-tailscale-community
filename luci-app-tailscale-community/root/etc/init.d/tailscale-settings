@@ -35,7 +35,7 @@ apply_settings() {
 	config_load tailscale
 
 	local accept_routes advertise_exit_node exit_node exit_node_allow_lan_access
-	local ssh disable_magic_dns shields_up runwebclient nosnat hostname
+	local ssh shields_up nosnat hostname
 	local enable_relay relay_server_port
 
 	config_get accept_routes              settings accept_routes              '0'
@@ -43,9 +43,7 @@ apply_settings() {
 	config_get exit_node                  settings exit_node                  ''
 	config_get exit_node_allow_lan_access settings exit_node_allow_lan_access '0'
 	config_get ssh                        settings ssh                        '0'
-	config_get disable_magic_dns          settings disable_magic_dns          '0'
 	config_get shields_up                 settings shields_up                 '0'
-	config_get runwebclient               settings runwebclient               '0'
 	config_get nosnat                     settings nosnat                     '0'
 	config_get hostname                   settings hostname                   ''
 	config_get enable_relay               settings enable_relay               '0'
@@ -89,20 +87,13 @@ apply_settings() {
 		&& set -- "$@" --ssh=true \
 		|| set -- "$@" --ssh=false
 
-	# --accept-dns (inverse of disable_magic_dns)
-	[ "$disable_magic_dns" = "1" ] \
-		&& set -- "$@" --accept-dns=false \
-		|| set -- "$@" --accept-dns=true
+	# DNS stripped from binary — always decline
+	set -- "$@" --accept-dns=false
 
 	# --shields-up
 	[ "$shields_up" = "1" ] \
 		&& set -- "$@" --shields-up=true \
 		|| set -- "$@" --shields-up=false
-
-	# --webclient
-	[ "$runwebclient" = "1" ] \
-		&& set -- "$@" --webclient=true \
-		|| set -- "$@" --webclient=false
 
 	# --snat-subnet-routes (inverse of nosnat)
 	[ "$nosnat" = "1" ] \
